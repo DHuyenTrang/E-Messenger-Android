@@ -77,6 +77,12 @@ dependencies {
     // hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    // recycler view
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+
+    // circle image view
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 }
 
 kapt {

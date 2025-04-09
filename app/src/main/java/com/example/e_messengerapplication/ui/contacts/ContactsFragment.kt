@@ -1,4 +1,4 @@
-package com.example.e_messengerapplication
+package com.example.e_messengerapplication.ui.contacts
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

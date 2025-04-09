@@ -14,5 +14,6 @@
     <color name="icon_primary">#141414</color>
     <color name="warning">#FFAB00</color>
     <color name="icon_secondary">#A1A1A1</color>
+    <color name="background2">#F5F5F5</color>
 
 </resources>

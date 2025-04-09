@@ -32,7 +32,10 @@ class SignInViewModel @Inject constructor(
 
                 val accessToken = response.body()?.result?.accessToken
                 val refreshToken = response.body()?.result?.refreshToken
+                val id = response.body()?.result?.userId
+
                 tokenManager.saveToken(accessToken!!, refreshToken!!)
+                tokenManager.saveUserID(id!!)
             } else {
                 _isLoginSuccess.value = false
                 Log.d("AUTH", "Failed to login: ${response.code()}")

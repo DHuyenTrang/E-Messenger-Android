@@ -1,15 +1,14 @@
 package com.example.e_messengerapplication.data.response
 
 data class AuthResponse(
-    val code: Int,
-    val message: String,
-    val result: Result
+    val result: TokenResponse
 ) {
 }
 
-data class Result(
+data class TokenResponse(
     val accessToken: String,
-    val refreshToken: String
+    val refreshToken: String,
+    val userId: String
 ) {
 
 }

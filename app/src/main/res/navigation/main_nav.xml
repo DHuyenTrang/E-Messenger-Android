@@ -21,22 +21,44 @@
         tools:layout="@layout/fragment_sign_up" />
     <fragment
         android:id="@+id/contactsFragment"
-        android:name="com.example.e_messengerapplication.ContactsFragment"
+        android:name="com.example.e_messengerapplication.ui.contacts.ContactsFragment"
         android:label="fragment_contacts"
         tools:layout="@layout/fragment_contacts" />
     <fragment
         android:id="@+id/chatBotFragment"
-        android:name="com.example.e_messengerapplication.ChatBotFragment"
+        android:name="com.example.e_messengerapplication.ui.chatbot.ChatBotFragment"
         android:label="fragment_chat_bot"
         tools:layout="@layout/fragment_chat_bot" />
     <fragment
         android:id="@+id/groupsFragment"
-        android:name="com.example.e_messengerapplication.GroupsFragment"
+        android:name="com.example.e_messengerapplication.ui.groups.GroupsFragment"
         android:label="fragment_groups"
         tools:layout="@layout/fragment_groups" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.e_messengerapplication.HomeFragment"
+        android:name="com.example.e_messengerapplication.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_searchContactFragment"
+            app:destination="@id/searchContactFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchContactFragment"
+        android:name="com.example.e_messengerapplication.ui.search.SearchContactFragment"
+        android:label="fragment_search_contact"
+        tools:layout="@layout/fragment_search_contact" >
+        <action
+            android:id="@+id/action_searchContactFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.e_messengerapplication.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+
 </navigation>
