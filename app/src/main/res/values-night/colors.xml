@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#6852D6</color>
+    <color name="background">#141414</color>
+    <color name="border_light">#272727</color>
+    <color name="border_default">#383838</color>
+    <color name="border_dark">#4C4C4C</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#989898</color>
+    <color name="text_disabled">#4C4C4C</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="icon_primary">#FFFFFF</color>
+    <color name="warning">#D08D04</color>
+</resources>
