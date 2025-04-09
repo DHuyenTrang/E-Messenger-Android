@@ -13,4 +13,5 @@
     <color name="text_white">#FFFFFF</color>
     <color name="icon_primary">#FFFFFF</color>
     <color name="warning">#D08D04</color>
+    <color name="icon_secondary">#858585</color>
 </resources>

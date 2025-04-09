@@ -19,4 +19,24 @@
         android:name="com.example.e_messengerapplication.ui.auth.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.example.e_messengerapplication.ContactsFragment"
+        android:label="fragment_contacts"
+        tools:layout="@layout/fragment_contacts" />
+    <fragment
+        android:id="@+id/chatBotFragment"
+        android:name="com.example.e_messengerapplication.ChatBotFragment"
+        android:label="fragment_chat_bot"
+        tools:layout="@layout/fragment_chat_bot" />
+    <fragment
+        android:id="@+id/groupsFragment"
+        android:name="com.example.e_messengerapplication.GroupsFragment"
+        android:label="fragment_groups"
+        tools:layout="@layout/fragment_groups" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.e_messengerapplication.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 </navigation>
