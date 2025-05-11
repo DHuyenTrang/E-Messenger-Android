@@ -19,14 +19,16 @@ class MessagesAdapter(private val tokenManager: TokenManager): ListAdapter<Messa
     }
 
     inner class SentMessageVH(private val binding: ItemMessageSentBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(text: String) {
-            binding.tvMessage.text = text
+        fun bind(message: Message) {
+            binding.tvMessage.text = message.text
+            binding.tvSentAt.text = message.sentAt
         }
     }
 
     inner class ReceivedMessageVH(private val binding: ItemMessageReceivedBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(text: String) {
-            binding.tvMessage.text = text
+        fun bind(message: Message) {
+            binding.tvMessage.text = message.text
+            binding.tvSentAt.text = message.sentAt
         }
     }
 
@@ -56,10 +58,10 @@ class MessagesAdapter(private val tokenManager: TokenManager): ListAdapter<Messa
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is SentMessageVH -> {
-                holder.bind(getItem(position).text)
+                holder.bind(getItem(position))
             }
             is ReceivedMessageVH -> {
-                holder.bind(getItem(position).text)
+                holder.bind(getItem(position))
             }
         }
     }

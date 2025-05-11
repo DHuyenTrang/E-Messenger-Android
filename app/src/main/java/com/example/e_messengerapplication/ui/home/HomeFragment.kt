@@ -5,13 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_messengerapplication.R
 import com.example.e_messengerapplication.databinding.FragmentHomeBinding
-import com.example.e_messengerapplication.viewmodel.HomeViewModel
+import com.example.e_messengerapplication.domain.Conversation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = binding.listItem
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = ConversationAdapter()
+        recyclerView.adapter = ConversationAdapter{
+            onConversationClick(it)
+        }
 
         binding.btnAddContact.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchContactFragment)
@@ -55,6 +58,17 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun onConversationClick(conversation: Conversation) {
+        findNavController().navigate(
+            R.id.action_homeFragment_to_chatFragment,
+            args = bundleOf(
+                "conversationId" to conversation.id,
+                "otherId" to viewModel.getOtherId(conversation),
+                "conversationName" to conversation.name
+            )
+        )
     }
 
     override fun onDestroy() {

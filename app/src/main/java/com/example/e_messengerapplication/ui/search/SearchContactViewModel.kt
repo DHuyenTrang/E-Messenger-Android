@@ -1,4 +1,4 @@
-package com.example.e_messengerapplication.viewmodel
+package com.example.e_messengerapplication.ui.search
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

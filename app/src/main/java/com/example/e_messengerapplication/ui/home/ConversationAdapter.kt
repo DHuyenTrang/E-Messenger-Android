@@ -8,13 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.e_messengerapplication.databinding.ItemConversationBinding
 import com.example.e_messengerapplication.domain.Conversation
 
-class ConversationAdapter: ListAdapter<Conversation, ConversationAdapter.ConversationViewHolder>(ConversationDiffCallback) {
+class ConversationAdapter(private val onItemClick: (Conversation) -> Unit): ListAdapter<Conversation, ConversationAdapter.ConversationViewHolder>(ConversationDiffCallback) {
     inner class ConversationViewHolder(private val binding: ItemConversationBinding)
         : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Conversation) {
-            binding.tvDisplayName.text = item.name
-            binding.tvLastMessage.text = item.lastMessage
-            binding.tvLastMessageTime.text = item.lastMessageTime
+            binding.root.setOnClickListener {
+                onItemClick(item)
+            }
+            binding.tvDisplayName.text = item.name ?: ""
+            binding.tvLastMessage.text = item.lastMessage ?: ""
+            binding.tvLastMessageTime.text = item.lastMessageTime ?: ""
         }
     }
 

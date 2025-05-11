@@ -8,13 +8,14 @@ data class ConversationsResponse(
 }
 
 data class ConversationDto(
-    val id: String,
-    val name: String,
-    val lastMessage: String,
-    val lastMessageTime: String,
-    val lastMessageSenderId: String,
+    val id: String?,
+    val conversationName: String?,
+    val lastMessage: String?,
+    val lastMessageTime: String?,
+    val lastSenderName: String?,
+    val participantIds: List<String>?
 ) {
     fun mapToConversation(): Conversation {
-        return Conversation(id, name, lastMessage, lastMessageTime, lastMessageSenderId)
+        return Conversation(id, conversationName, lastMessage, lastMessageTime, lastSenderName, participantIds)
     }
 }

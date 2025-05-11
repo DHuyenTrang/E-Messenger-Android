@@ -1,18 +1,21 @@
 package com.example.e_messengerapplication.ui.chat
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_messengerapplication.TokenManager
 import com.example.e_messengerapplication.databinding.FragmentChatBinding
-import com.example.e_messengerapplication.viewmodel.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,21 +36,27 @@ class ChatFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val conversationId = requireArguments().getString("conversationId") ?: ""
         val otherId = requireArguments().getString("otherId") ?: ""
+        val conversationName = requireArguments().getString("conversationName") ?: ""
+        binding.tvDisplayName.text = conversationName
 
         val recyclerView = binding.listMessages
         val adapter = MessagesAdapter(tokenManager)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        viewModel.fetchMessages(conversationId)
+        viewModel.fetchMessage(conversationId)
+        viewModel.connect(conversationId)
+
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.messages.collect { messages ->
+            viewModel.messages.collectLatest{ messages ->
                 adapter.submitList(messages)
+                recyclerView.scrollToPosition(0)
             }
         }
         setTextViewFocus()
@@ -55,11 +64,14 @@ class ChatFragment : Fragment() {
         binding.btnSendMessage.setOnClickListener {
             val message = binding.edtMessage.text.toString()
             if (message.isNotEmpty()) {
-                viewModel.sendMessage(otherId, message)
+                viewModel.sendMessage(conversationId, message)
                 binding.edtMessage.text.clear()
             }
             binding.edtMessage.clearFocus()
             binding.edtMessage.text = null
+        }
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
@@ -76,15 +88,6 @@ class ChatFragment : Fragment() {
                 // Ẩn các nút gửi hình ảnh và âm thanh
                 binding.btnSendImage.visibility = View.GONE
                 binding.btnSendVoice.visibility = View.GONE
-//            } else {
-//                // Đặt lại chiều rộng ban đầu
-//                val params = edt_message.layoutParams as ConstraintLayout.LayoutParams
-//                params.matchConstraintPercentWidth = 0.6f // Trở về 70%
-//                edt_message.layoutParams = params
-
-//                // Hiển thị lại các nút
-//                binding.btnSendImage.visibility = View.VISIBLE
-//                binding.btnSendVoice.visibility = View.VISIBLE
             }
         }
 

@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.e_messengerapplication.R
 import com.example.e_messengerapplication.databinding.FragmentSearchContactBinding
-import com.example.e_messengerapplication.viewmodel.SearchContactViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -64,7 +63,8 @@ class SearchContactFragment : Fragment() {
                 R.id.action_searchContactFragment_to_chatFragment,
                 args = bundleOf(
                     "conversationId" to viewModel.getConversationId(),
-                    "otherId" to viewModel.getOtherId()
+                    "otherId" to viewModel.getOtherId(),
+                    "conversationName" to binding.tvDisplayName.text.toString()
                     )
             )
         }

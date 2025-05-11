@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.e_messengerapplication.R
 import com.example.e_messengerapplication.databinding.FragmentSignInBinding
-import com.example.e_messengerapplication.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

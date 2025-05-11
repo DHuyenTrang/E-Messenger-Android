@@ -83,6 +83,12 @@ dependencies {
 
     // circle image view
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    // websocket
+    implementation("org.java-websocket:Java-WebSocket:1.5.6")
+    implementation("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
+    // RxJava 2
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
 }
 
 kapt {
