@@ -48,11 +48,11 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.conversations.collect { conversations ->
                 if (conversations.isEmpty()) {
-                    binding.imgEmptyChat.visibility = View.VISIBLE
+                    binding.layoutEmptyConversation.visibility = View.VISIBLE
                     binding.listItem.visibility = View.GONE
                 }
                 else {
-                    binding.imgEmptyChat.visibility = View.GONE
+                    binding.layoutEmptyConversation.visibility = View.GONE
                     binding.listItem.visibility = View.VISIBLE
                     (recyclerView.adapter as ConversationAdapter).submitList(conversations)
                 }

@@ -4,6 +4,7 @@
 
     <!-- Button Shadow Padding (Optional) -->
     <solid android:color="@color/background" />
+    <corners android:radius="15dp" />
 <!--    <padding-->
 <!--        android:left="10dp"-->
 <!--        android:right="10dp"-->

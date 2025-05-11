@@ -15,4 +15,5 @@
     <color name="warning">#D08D04</color>
     <color name="icon_secondary">#858585</color>
     <color name="background2">#272727</color>
+    <color name="error">#C73C3E</color>
 </resources>

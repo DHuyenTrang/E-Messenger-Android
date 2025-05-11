@@ -40,6 +40,11 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
+            android:id="@+id/action_global_home"
+            app:destination="@id/homeFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="false" />
+        <action
             android:id="@+id/action_homeFragment_to_searchContactFragment"
             app:destination="@id/searchContactFragment" />
         <action
@@ -60,5 +65,10 @@
         android:name="com.example.e_messengerapplication.ui.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.e_messengerapplication.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

@@ -28,12 +28,16 @@ class ChatViewModel @Inject constructor(
     val messages: StateFlow<List<Message>> = _messages.asStateFlow()
 
     fun fetchMessage(conversationId: String) {
+        Log.d("ChatViewModel", "Fetching messages for conversation: $conversationId")
         viewModelScope.launch {
             val response = messageRepository.fetchMessage(conversationId)
             if (response.isSuccessful) {
-                _messages.value = (response.body()?.result?.forEach {
-                    it.mapToMessage()
-                } ?: emptyList<Message>()) as List<Message>
+                val messageList = response.body()?.result?.map { it.mapToMessage() } ?: emptyList()
+                _messages.value = messageList
+                Log.d("ChatViewModel", "Fetched messages: ${messageList.first()}")
+            }
+            else {
+                Log.e("ChatViewModel", "Failed to fetch messages: ${response.code()} - ${response.errorBody()?.string()}")
             }
         }
     }

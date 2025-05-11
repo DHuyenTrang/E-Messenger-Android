@@ -8,6 +8,7 @@ import javax.inject.Inject
 class TokenManager @Inject constructor(context: Context) {
     private val authPrefs: SharedPreferences = context.getSharedPreferences("authPrefs", Context.MODE_PRIVATE)
     private val userPrefs: SharedPreferences = context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
+    private val settingPrefs: SharedPreferences = context.getSharedPreferences("settingsPrefs", Context.MODE_PRIVATE)
 
     fun saveUserID(id: String) {
         val editor = userPrefs.edit()

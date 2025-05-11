@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val tokenManager: TokenManager,
 ): ViewModel() {
@@ -41,5 +41,9 @@ class SignInViewModel @Inject constructor(
                 Log.d("AUTH", "Failed to login: ${response.code()}")
             }
         }
+    }
+
+    fun logout() {
+        tokenManager.clearTokens()
     }
 }

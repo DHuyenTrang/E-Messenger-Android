@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.e_messengerapplication.TokenManager
 import com.example.e_messengerapplication.domain.Message
-import com.example.e_messengerapplication.ui.chat.MessagesAdapter
 import com.example.e_messengerapplication.utils.Constant
 import com.example.e_messengerapplication.utils.Constant.WEBSOCKET_URL
 import io.reactivex.disposables.CompositeDisposable
@@ -17,7 +16,6 @@ import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class WebSocketService @Inject constructor(

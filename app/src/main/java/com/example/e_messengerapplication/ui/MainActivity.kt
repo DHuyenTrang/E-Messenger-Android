@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         controller.addOnDestinationChangedListener{_, destination, _ ->
             when(destination.id) {
                 R.id.homeFragment,
-                R.id.contactsFragment,
+                R.id.profileFragment,
                 R.id.groupsFragment,
                 R.id.chatBotFragment
                     -> bottomNavigationView.visibility = View.VISIBLE

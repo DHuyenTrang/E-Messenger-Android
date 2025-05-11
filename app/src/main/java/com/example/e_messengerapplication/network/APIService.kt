@@ -24,7 +24,7 @@ interface APIService {
         @Path("identifier") phoneNumber: String
     ): Response<UserResponse>
 
-    @GET("/chat/histories/{conversationId}")
+    @GET("chat/histories/{conversationId}")
     suspend fun fetchMessages(
         @Path("conversationId") conversationId: String,
     ):Response<MessageResponse>

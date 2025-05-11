@@ -55,6 +55,9 @@ class SearchContactFragment : Fragment() {
                     binding.layoutResult.visibility = View.VISIBLE
                     binding.tvDisplayName.text = user.displayName
                 }
+                else {
+                    binding.layoutResult.visibility = View.GONE
+                }
             }
         }
 

@@ -26,6 +26,7 @@
             app:menu="@menu/bottom_menu"
             android:background="@drawable/bg_bottom_menu"
             app:itemIconTint="@drawable/bg_item_menu_selector"
+            app:itemTextColor="@color/bottom_nav_text_color"
             app:itemIconSize="24dp" />
     </com.example.e_messengerapplication.ui.widget.SafeAreaView>
 </androidx.constraintlayout.widget.ConstraintLayout>
