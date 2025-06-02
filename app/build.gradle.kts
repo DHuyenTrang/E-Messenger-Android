@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.process)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -89,6 +90,14 @@ dependencies {
     implementation("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
     // RxJava 2
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    //jitpack - navigation
+    implementation("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+    //Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    //waveform
+    implementation("com.github.massoudss:waveformSeekBar:5.0.2")
+    implementation("com.github.lincollincol:amplituda:2.2.2")
 }
 
 kapt {

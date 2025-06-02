@@ -62,14 +62,21 @@ class SearchContactFragment : Fragment() {
         }
 
         binding.layoutResult.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_searchContactFragment_to_chatFragment,
-                args = bundleOf(
-                    "conversationId" to viewModel.getConversationId(),
-                    "otherId" to viewModel.getOtherId(),
-                    "conversationName" to binding.tvDisplayName.text.toString()
-                    )
-            )
+            viewModel.createDirectConversation()
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.createSuccess.collect {
+                    if (it) {
+                        findNavController().navigate(
+                            R.id.action_searchContactFragment_to_chatFragment,
+                            args = bundleOf(
+                                "conversationId" to viewModel.getConversationId(),
+                                "conversationName" to binding.tvDisplayName.text.toString(),
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 

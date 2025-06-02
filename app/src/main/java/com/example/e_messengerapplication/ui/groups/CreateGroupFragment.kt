@@ -1,4 +1,4 @@
-package com.example.e_messengerapplication
+package com.example.e_messengerapplication.ui.groups
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -21,5 +21,6 @@ class CreateGroupFragment : Fragment() {
         _binding = FragmentCreateGroupBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
 }

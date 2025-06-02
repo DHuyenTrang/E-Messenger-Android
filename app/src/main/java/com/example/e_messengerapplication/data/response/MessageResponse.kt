@@ -1,28 +1,49 @@
 package com.example.e_messengerapplication.data.response
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.e_messengerapplication.domain.Message
-import com.example.e_messengerapplication.utils.Constant
+import com.example.e_messengerapplication.domain.MessageType
 
 data class MessageResponse(
     val result: List<MessageDto>
-) {
-}
+)
 
 data class MessageDto(
     val content: String?,
     val type: String?,
-    val senderId: String?,
-    val sentAt: String,
-    val senderName: String
+    val actorId: String?,
+    val time: String,
+    val actorName: String,
+    val actorAvatarUrl: String?,
+    val conversationId: String,
+    val mediaType: String?,
+    val url: String?
 ) {
-    @RequiresApi(Build.VERSION_CODES.O)
     fun mapToMessage(): Message {
+        val resolvedType = when (type) {
+            "MEDIA" -> {
+                when (mediaType) {
+                    "IMAGE" -> MessageType.IMAGE
+                    "AUDIO" -> MessageType.AUDIO
+                    else -> MessageType.TEXT
+                }
+            }
+            "TEXT" -> MessageType.TEXT
+            else -> MessageType.TEXT
+        }
+
+        val messageContent = when (resolvedType) {
+            MessageType.IMAGE, MessageType.AUDIO -> url ?: ""
+            MessageType.TEXT -> content ?: ""
+        }
+
         return Message(
-            text = content ?: "",
-            senderId = senderId ?: "unknown",
-            sentAt = Constant.formatMessageTime(sentAt)
+            content = messageContent,
+            type = resolvedType,
+            actorId = actorId.orEmpty(),
+            time = time,
+            actorName = actorName,
+            actorAvatarUrl = actorAvatarUrl.orEmpty(),
+            conversationId = conversationId
         )
     }
 }

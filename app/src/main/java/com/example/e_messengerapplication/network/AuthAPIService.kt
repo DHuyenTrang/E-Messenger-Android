@@ -4,6 +4,7 @@ import com.example.e_messengerapplication.data.request.AuthRequest
 import com.example.e_messengerapplication.data.request.UserRequest
 import com.example.e_messengerapplication.data.response.AuthResponse
 import com.example.e_messengerapplication.data.response.UserResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -11,7 +12,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface AuthAPIService {
-    @POST("users/sign-up")
+    @POST("users")
     suspend fun register(
         @Body userRequest: UserRequest
     ): Response<UserResponse>
@@ -21,9 +22,9 @@ interface AuthAPIService {
         @Body authRequest: AuthRequest
     ): Response<AuthResponse>
 
-    @GET("/auth/refresh-tokens")
+    @GET("auth/refresh-tokens")
     fun refreshToken(
         @Header("Authorization") barerToken: String
-    ): Response<AuthResponse>
+    ): Call<AuthResponse>
 
 }

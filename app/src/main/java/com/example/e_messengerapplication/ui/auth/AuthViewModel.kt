@@ -3,9 +3,10 @@ package com.example.e_messengerapplication.ui.auth
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.e_messengerapplication.TokenManager
+import com.example.e_messengerapplication.AppStore
 import com.example.e_messengerapplication.data.request.AuthRequest
-import com.example.e_messengerapplication.repository.AuthRepository
+import com.example.e_messengerapplication.data.repository.AuthRepository
+import com.example.e_messengerapplication.data.websocket.WebSocketService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,8 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val tokenManager: TokenManager,
+    private val appStore: AppStore,
 ): ViewModel() {
+    @Inject lateinit var webSocketService: WebSocketService
     private var _isLoginSuccess = MutableStateFlow<Boolean?>(null)
     val isLoginSuccess: StateFlow<Boolean?> = _isLoginSuccess.asStateFlow()
 
@@ -34,8 +36,11 @@ class AuthViewModel @Inject constructor(
                 val refreshToken = response.body()?.result?.refreshToken
                 val id = response.body()?.result?.userId
 
-                tokenManager.saveToken(accessToken!!, refreshToken!!)
-                tokenManager.saveUserID(id!!)
+                appStore.saveToken(accessToken!!, refreshToken!!)
+                appStore.saveUserID(id!!)
+
+                webSocketService.disconnect()
+                webSocketService.connect()
             } else {
                 _isLoginSuccess.value = false
                 Log.d("AUTH", "Failed to login: ${response.code()}")
@@ -44,6 +49,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun logout() {
-        tokenManager.clearTokens()
+        Log.d("AUTH", "Logout")
+        appStore.clearTokens()
     }
 }

@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.e_messengerapplication.R
 import com.example.e_messengerapplication.databinding.FragmentSignInBinding
+import com.example.e_messengerapplication.ui.profile.SharedUserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -21,6 +23,7 @@ class SignInFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AuthViewModel by viewModels()
+    val userViewModel: SharedUserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +36,6 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setOnListener()
     }
 
@@ -50,8 +52,13 @@ class SignInFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.isLoginSuccess.collect { isLoginSuccess ->
                     if (isLoginSuccess == true) {
+                        userViewModel.fetchProfile()
                         Log.d("AUTH", "Login success")
-                        findNavController().navigate(R.id.homeFragment)
+                        userViewModel.fetchSuccess.collect {
+                            if (it) {
+                                findNavController().navigate(R.id.homeFragment)
+                            }
+                        }
                     } else if (isLoginSuccess == false) {
                         // Handle login failure
                         Toast.makeText(requireContext(), "Login failed! Try again", Toast.LENGTH_LONG).show()

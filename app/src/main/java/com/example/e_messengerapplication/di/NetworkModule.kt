@@ -1,6 +1,6 @@
 package com.example.e_messengerapplication.di
 
-import com.example.e_messengerapplication.TokenManager
+import com.example.e_messengerapplication.AppStore
 import com.example.e_messengerapplication.data.websocket.WebSocketService
 import com.example.e_messengerapplication.network.APIService
 import com.example.e_messengerapplication.network.AuthAPIService
@@ -19,12 +19,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    @Provides
-    @Singleton
-    fun provideWebSocketService(tokenManager: TokenManager): WebSocketService {
-        return WebSocketService(tokenManager)
-    }
 
     @Provides
     @Singleton

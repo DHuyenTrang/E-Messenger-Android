@@ -1,58 +1,75 @@
 package com.example.e_messengerapplication.ui.chat
 
-import android.os.Build
+import android.content.Context
+import android.net.Uri
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.e_messengerapplication.data.request.MessageRequest
 import com.example.e_messengerapplication.data.websocket.WebSocketService
 import com.example.e_messengerapplication.domain.Message
-import com.example.e_messengerapplication.repository.MessageRepository
+import com.example.e_messengerapplication.data.repository.MessageRepositoryImpl
+import com.example.e_messengerapplication.utils.Constant
+import com.example.e_messengerapplication.utils.Constant.TAG_MESSAGE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.json.JSONObject
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val webSocketService: WebSocketService,
-    private val messageRepository: MessageRepository
+    private val messageRepository: MessageRepositoryImpl
 ) : ViewModel() {
     private val _messages = MutableStateFlow<List<Message>>(emptyList())
     val messages: StateFlow<List<Message>> = _messages.asStateFlow()
 
-    fun fetchMessage(conversationId: String) {
-        Log.d("ChatViewModel", "Fetching messages for conversation: $conversationId")
+    private var currentConversationId: String? = null
+    private var isConnected = false
+
+    fun sendImage(context: Context, conversationId: String, uri: Uri) {
+        val file = Constant.uriToFile(context, uri)
         viewModelScope.launch {
-            val response = messageRepository.fetchMessage(conversationId)
-            if (response.isSuccessful) {
-                val messageList = response.body()?.result?.map { it.mapToMessage() } ?: emptyList()
-                _messages.value = messageList
-                Log.d("ChatViewModel", "Fetched messages: ${messageList.first()}")
-            }
-            else {
-                Log.e("ChatViewModel", "Failed to fetch messages: ${response.code()} - ${response.errorBody()?.string()}")
+            val url = messageRepository.getUrlResource(file!!, "IMAGE")
+            Log.d(TAG_MESSAGE, "Resource uploaded: $url")
+            if (url != "") {
+                webSocketService.sendResource(conversationId, url, "IMAGE")
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun connect(conversationId: String) {
-
+    fun sendAudio(conversationId: String, file: File) {
         viewModelScope.launch {
-            Log.d("ChatViewModel", "Connecting to WebSocket")
-            webSocketService.messageFlow.collectLatest { msg ->
-                _messages.update { it + msg }
-                Log.d("ChatViewModel", "Received message: $msg")
+            val url = messageRepository.getUrlResource(file, "AUDIO")
+            Log.d(TAG_MESSAGE, "Resource uploaded: $url")
+            if (url != "") {
+                webSocketService.sendResource(conversationId, url, "AUDIO")
             }
         }
-        webSocketService.connect(conversationId)
+    }
+
+    fun fetchMessage(conversationId: String) {
+        viewModelScope.launch {
+            _messages.value = messageRepository.fetchMessage(conversationId)
+            currentConversationId = conversationId
+        }
+        initWebSocketCollector()
+    }
+
+    private fun initWebSocketCollector() {
+        if (isConnected) return
+        isConnected = true
+        viewModelScope.launch {
+            webSocketService.messageFlow.collect { message ->
+                Log.d(TAG_MESSAGE, message.toString())
+                if (message.conversationId == currentConversationId) {
+                    _messages.update { it + message }
+                }
+            }
+        }
     }
 
     fun sendMessage(conversationId: String, text: String) {
@@ -61,4 +78,3 @@ class ChatViewModel @Inject constructor(
         }
     }
 }
-

@@ -1,20 +1,20 @@
 package com.example.e_messengerapplication.network
 
 import android.util.Log
-import com.example.e_messengerapplication.TokenManager
+import com.example.e_messengerapplication.AppStore
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
-    private val tokenManager: TokenManager,
+    private val appStore: AppStore,
     private val authApiService: AuthAPIService
 ) : Interceptor {
 
     @Synchronized
     override fun intercept(chain: Interceptor.Chain): Response {
-        val accessToken = tokenManager.getAccessToken()
-        val refreshToken = tokenManager.getRefreshToken()
+        val accessToken = appStore.getAccessToken()
+        val refreshToken = appStore.getRefreshToken()
 
         val originalRequest = chain.request()
         val requestWithAccess = originalRequest.newBuilder()
@@ -29,11 +29,13 @@ class AuthInterceptor @Inject constructor(
 
         // Nếu 401, thử refresh token
         if (response.code() == 401 && !refreshToken.isNullOrEmpty()) {
+            Log.d("Auth", "401 error")
 //            response.close()
             try {
                 val refreshResponse = authApiService
                     .refreshToken("Bearer $refreshToken")
-
+                    .execute()
+                Log.d("Auth", "refreshResponse: $refreshResponse")
                 if (refreshResponse.isSuccessful) {
                     val newTokens = refreshResponse.body()
                     val newAccessToken = newTokens?.result?.accessToken
@@ -41,7 +43,7 @@ class AuthInterceptor @Inject constructor(
                     Log.d("Auth", "newAccessToken: $newAccessToken")
                     if (!newAccessToken.isNullOrEmpty()) {
                         if (newRefreshToken != null) {
-                            tokenManager.saveToken(newAccessToken, newRefreshToken)
+                            appStore.saveToken(newAccessToken, newRefreshToken)
                         }
 
                         val newRequest = originalRequest.newBuilder()

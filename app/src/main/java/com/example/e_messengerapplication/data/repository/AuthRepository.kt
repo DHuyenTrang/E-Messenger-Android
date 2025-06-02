@@ -1,4 +1,4 @@
-package com.example.e_messengerapplication.repository
+package com.example.e_messengerapplication.data.repository
 
 import com.example.e_messengerapplication.data.request.AuthRequest
 import com.example.e_messengerapplication.data.response.AuthResponse
